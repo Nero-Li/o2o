@@ -10,7 +10,7 @@ create table `tb_area`(
 	primary key(`area_id`),
 	unique key `UK_AREA`(`area_name`)
 )ENGINE=InnoDB AUTO_INCREMENT =1 DEFAULT CHARSET=utf8;
-	
+
 create table `tb_person_info`(
 	`user_id` int(10) NOT NULL AUTO_INCREMENT,
 	`name` varchar(32) DEFAULT NULL,
@@ -21,7 +21,7 @@ create table `tb_person_info`(
 	`user_type` int(2) NOT NULL DEFAULT '1' COMMENT '1:顾客,2:店家,3:超级管理员',
 	`create_time` datetime DEFAULT NULL,
 	`last_edit_time` datetime DEFAULT NULL,
-	primary key(user_id`)
+	primary key(`user_id`)
 )ENGINE=InnoDB AUTO_INCREMENT =1 DEFAULT CHARSET=utf8;
 
 create table `tb_wechat_auth`(
@@ -30,7 +30,7 @@ create table `tb_wechat_auth`(
 	`open_id` varchar(1024) NOT NULL,
 	`create_time` datetime DEFAULT NULL,
 	primary key(`wechat_auth_id`),
-	constraint `fk_wechatauth_profile` foreign key(user_id`) references `tb_person_info`(`user_id`)
+	constraint `fk_wechatauth_profile` foreign key(`user_id`) references `tb_person_info`(`user_id`)
 )ENGINE=InnoDB AUTO_INCREMENT =1 DEFAULT CHARSET=utf8;
 
 create table `tb_local_auth`(
@@ -41,8 +41,8 @@ create table `tb_local_auth`(
 	`create_time` datetime DEFAULT NULL,
 	`last_edit_time` datetime DEFAULT NULL,
 	primary key(`local_auth_id`),
-	unique key `uk_local_profile`(username`),
-	constraint `fk_localauth_profile` foreign key(user_id`) references `tb_person_info`(`user_id`)
+	unique key `uk_local_profile`(`username`),
+	constraint `fk_localauth_profile` foreign key(`user_id`) references `tb_person_info`(`user_id`)
 )ENGINE=InnoDB AUTO_INCREMENT =1 DEFAULT CHARSET=utf8;
 
 alter table tb_wechat_auth add unique index(`open_id`);
@@ -69,7 +69,7 @@ create table `tb_shop_category`(
 	`last_edit_time` datetime DEFAULT NULL,
 	`parent_id` int(11) DEFAULT NULL,
 	primary key(`shop_category_id`),
-	constraint `fk_shop_category_self` foreign key (`parent_id`) references tb_shop_category`(`shop_category_id`)
+	constraint `fk_shop_category_self` foreign key (`parent_id`) references `tb_shop_category`(`shop_category_id`)
 )ENGINE=InnoDB AUTO_INCREMENT =1 DEFAULT CHARSET=utf8;
 
 create table `tb_shop`(
@@ -88,9 +88,9 @@ create table `tb_shop`(
 	`enable_status` int(2) NOT NULL DEFAULT '0',
 	`advice` varchar(255) DEFAULT NULL,
 	primary key(`shop_id`),
-	constraint `fk_shop_area` foreign key(area_id`) references `tb_area`(area_id`),
-	constraint `fk_shop_profile` foreign key(owner_id`) references `tb_person_info`(`user_id`),
-	constraint `fk_shop_shopcate` foreign key(shop_category_id`) references `tb_shop_category`(`shop_category_id`)
+	constraint `fk_shop_area` foreign key(`area_id`) references `tb_area`(`area_id`),
+	constraint `fk_shop_profile` foreign key(`owner_id`) references `tb_person_info`(`user_id`),
+	constraint `fk_shop_shopcate` foreign key(`shop_category_id`) references `tb_shop_category`(`shop_category_id`)
 )ENGINE=InnoDB AUTO_INCREMENT =1 DEFAULT CHARSET=utf8;
 
 create table `tb_product_category`(
