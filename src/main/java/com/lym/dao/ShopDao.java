@@ -13,6 +13,6 @@ public interface ShopDao {
 	  * 新增店铺
 	 * @param shop
 	 */
-	public void insertShop(Shop shop);
+	public int insertShop(Shop shop);
 	
 }

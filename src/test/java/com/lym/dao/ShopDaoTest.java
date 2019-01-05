@@ -35,6 +35,7 @@ public class ShopDaoTest extends BaseTest{
 		shop.setShopImg("testImg");
 		shop.setPriority(1);
 		shop.setCreateTime(new Date());
+//		shop.setLastEditTime(new Date());
 		shop.setEnableStatus(1);
 		shop.setAdvice("审核中");
 		shopDao.insertShop(shop);
