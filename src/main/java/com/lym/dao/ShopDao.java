@@ -14,5 +14,13 @@ public interface ShopDao {
 	 * @param shop
 	 */
 	public int insertShop(Shop shop);
+
+    /**
+     * 更新店铺
+     *
+     * @param shop
+     * @return
+     */
+    public int updateShop(Shop shop);
 	
 }
