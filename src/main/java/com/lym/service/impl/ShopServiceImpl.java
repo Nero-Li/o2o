@@ -57,7 +57,7 @@ public class ShopServiceImpl implements ShopService {
             }
         } catch (Exception e) {
             /**
-             * 只有抛出RuntimeException,事务才会生效,Exception不会回滚,不抛也不会回滚
+                          * 只有抛出RuntimeException,事务才会生效,Exception不会回滚,不抛也不会回滚
              */
             throw new ShopOperationException("addShop error:" + e.getMessage());
         }
