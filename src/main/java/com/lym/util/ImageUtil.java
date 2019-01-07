@@ -9,6 +9,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -50,16 +51,16 @@ public class ImageUtil {
      *
      * @return
      */
-    public static String generateThumbnal(File thumbnail, String targetAddr) {
+    public static String generateThumbnal(InputStream shopImgInputStream, String fileName, String targetAddr) {
         String realFileName = getRandomFileName();
-        String extention = getFileExtension(thumbnail);
+        String extention = getFileExtension(fileName);
         makeDirPath(targetAddr);
         String relativeAddr = targetAddr + realFileName + extention;
         logger.debug("current relativeAddr is:" + relativeAddr);
         File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
         logger.debug("current complete addr is:" + PathUtil.getImgBasePath() + relativeAddr);
         try {
-            Thumbnails.of(thumbnail)
+            Thumbnails.of(shopImgInputStream)
                     .size(200, 200)
                     .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/ciger.png")), 0.25f)
                     .outputQuality(0.8f)
@@ -87,12 +88,11 @@ public class ImageUtil {
     /**
      * 获取输入文件流的扩展名
      *
-     * @param file
+     * @param fileName
      * @return
      */
-    private static String getFileExtension(File file) {
-        String originalFileName = file.getName();
-        return originalFileName.substring(originalFileName.lastIndexOf("."));
+    private static String getFileExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 
     /**

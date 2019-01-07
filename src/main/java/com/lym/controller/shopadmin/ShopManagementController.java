@@ -1,15 +1,12 @@
 package com.lym.controller.shopadmin;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lym.dto.ShopExcution;
+import com.lym.entity.PersonInfo;
+import com.lym.entity.Shop;
+import com.lym.enums.ShopStateEnum;
+import com.lym.service.ShopService;
+import com.lym.util.HttpServletRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +16,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lym.dto.ShopExcution;
-import com.lym.entity.PersonInfo;
-import com.lym.entity.Shop;
-import com.lym.enums.ShopStateEnum;
-import com.lym.service.ShopService;
-import com.lym.util.HttpServletRequestUtil;
-import com.lym.util.ImageUtil;
-import com.lym.util.PathUtil;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/shopadmin")
@@ -66,25 +58,17 @@ public class ShopManagementController {
 		// 2.注册店铺
 		if (null != shop && null != shopImg) {
 			PersonInfo owner = new PersonInfo();
+            //Session TODO
 			owner.setUserId(1L);
 			shop.setOwner(owner);
-			File shopImgFile = new File(PathUtil.getImgBasePath()+ImageUtil.getRandomFileName());
-			try {
-				shopImgFile.createNewFile();
-			} catch (IOException e) {
-				modelMap.put("success", false);
-				modelMap.put("errMsg", e.getMessage());
-				return modelMap;
-			}
-			try {
-				InputStreamToFile(shopImg.getInputStream(), shopImgFile);
-			} catch (IOException e) {
-				modelMap.put("success", false);
-				modelMap.put("errMsg", e.getMessage());
-				return modelMap;
-			}
-			ShopExcution se = shopService.addShop(shop,shopImgFile);
-			if(se.getState() == ShopStateEnum.CHECK.getState()) {
+            ShopExcution se = null;
+            try {
+                se = shopService.addShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+            } catch (IOException e) {
+                modelMap.put("success", false);
+                modelMap.put("errMsg", se.getStateInfo());
+            }
+            if (se.getState() == ShopStateEnum.CHECK.getState()) {
 				modelMap.put("success", true);
 			}else {
 				modelMap.put("success", false);
@@ -99,7 +83,7 @@ public class ShopManagementController {
 		}
 	}
 	
-	private static void InputStreamToFile(InputStream ins,File file) {
+/*	private static void InputStreamToFile(InputStream ins,File file) {
 		FileOutputStream os = null;
 		try {
 			os = new FileOutputStream(file);
@@ -122,5 +106,5 @@ public class ShopManagementController {
 				throw new RuntimeException("InputStreamToFil关闭IO流产生异常!"+e.getMessage());
 			}
 		}
-	}
+	}*/
 }
