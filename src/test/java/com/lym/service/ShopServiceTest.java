@@ -47,9 +47,9 @@ public class ShopServiceTest extends BaseTest {
         shop.setCreateTime(new Date());
         shop.setEnableStatus(ShopStateEnum.CHECK.getState());
         shop.setAdvice("审核中");
-        File file = new File("C:\\Users\\lym\\Pictures\\thumb-1920-641968.jpg");
-        InputStream is = new FileInputStream(file);
-        ShopExcution shopExcution = shopService.addShop(shop, is, file.getName());
-        System.out.println(shopExcution.getState());
+//        File file = new File("C:\\Users\\lym\\Pictures\\thumb-1920-641968.jpg");
+//        InputStream is = new FileInputStream(file);
+//        ShopExcution shopExcution = shopService.addShop(shop, is, file.getName());
+//        System.out.println(shopExcution.getState());
     }
 }
