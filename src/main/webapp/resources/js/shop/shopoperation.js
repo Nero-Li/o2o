@@ -28,7 +28,7 @@ $(function() {
 			var shop={};
 			shop.shopName=$('#shop-name').val();
 			shop.shopAddr=$('#shop-addr').val();
-			shop.phone=$('#phone').val();
+			shop.phone=$('#shop-phone').val();
 			shop.shopDesc=$('#shop-desc').val();
 			shop.shopCategory={
 				shopCategoryId:$('#shop-category').find('option').not(function(){
@@ -36,14 +36,14 @@ $(function() {
 				}).data('id')
 			};
 			shop.area = {
-					shopCategoryId:$('#area').find('option').not(function(){
+					areaId:$('#area').find('option').not(function(){
 						return !this.selected;
 					}).data('id')
 			};
 			var shopImg = $('#shop-img')[0].files[0];
 			var formData = new FormData();
 			formData.append('shopImg',shopImg);
-			formData.append('shopStr',JSON,stringify(shop));
+			formData.append('shopStr',JSON.stringify(shop));
 			var verifyCodeActual = $('#j_captcha').val();
 			if(!verifyCodeActual){
 				$.toast("请输入验证码!")
@@ -55,7 +55,7 @@ $(function() {
 				type:'POST',
 				data:formData,
 				contentType:false,
-				proceesData:false,
+				processData:false,
 				cache:false,
 				success:function(data){
 					if(data.success){

@@ -68,6 +68,6 @@ public class ShopServiceImpl implements ShopService {
         //获取shop图片目录的相对路径
         String dest = PathUtil.getShopImagePath(shop.getShopId());
         String shopImgAddr = ImageUtil.generateThumbnal(shopImgInputStream, fileName, dest);
-        shop.setShopAddr(shopImgAddr);
+        shop.setShopImg(shopImgAddr);
     }
 }
