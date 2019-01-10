@@ -47,9 +47,23 @@ public class ShopServiceTest extends BaseTest {
         shop.setCreateTime(new Date());
         shop.setEnableStatus(ShopStateEnum.CHECK.getState());
         shop.setAdvice("审核中");
-//        File file = new File("C:\\Users\\lym\\Pictures\\thumb-1920-641968.jpg");
-//        InputStream is = new FileInputStream(file);
-//        ShopExcution shopExcution = shopService.addShop(shop, is, file.getName());
-//        System.out.println(shopExcution.getState());
+        File file = new File("C:\\Users\\lym\\Pictures\\thumb-1920-641968.jpg");
+        InputStream is = new FileInputStream(file);
+        ShopExcution shopExcution = shopService.addShop(shop, is, file.getName());
+        System.out.println(shopExcution.getState());
+    }
+
+    @Test
+    public void testUpdateShop() {
+        try {
+            Shop shop = shopService.getByShopId(17L);
+            shop.setShopName("修改后的店铺");
+            File file = new File("C:\\Users\\lym\\Desktop\\dabai.jpg");
+            FileInputStream inputStream = new FileInputStream(file);
+            ShopExcution shopExcution = shopService.updateShop(shop, inputStream, "dabai.jpg");
+            System.out.println("新的图片地址为:" + shopExcution.getShop().getShopImg());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
