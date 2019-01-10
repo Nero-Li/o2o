@@ -123,4 +123,25 @@ public class ImageUtil {
         }
         return file;
     }
+    
+    /**
+     * 判断storePath是文件路径还是目录路径
+     * -->如果storePath是文件路径,则删除该文件
+     * -->如果storePath是目录路径,则删除该目录下的所有文件
+     * @param storePath
+     */
+    public static void deleteFileOrPath(String storePath) {
+    	//获取全路径
+    	File fileOrPath = new File(PathUtil.getImgBasePath()+storePath);
+    	if(fileOrPath.exists()) {
+    		if(fileOrPath.isDirectory()) {
+    			File[] files = fileOrPath.listFiles();
+    			for(int i = 0;i<files.length;i++) {
+    				files[i].delete();
+    			}
+    		}
+    		//是文件就直接删,是目录先删除目录里的文件,再删除目录本身
+    		fileOrPath.delete();
+    	}
+    }
 }

@@ -6,11 +6,16 @@ import com.lym.entity.PersonInfo;
 import com.lym.entity.Shop;
 import com.lym.entity.ShopCategory;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
 public class ShopDaoTest extends BaseTest{
+	
+	
+	private Logger logger = LoggerFactory.getLogger(ShopDaoTest.class);
 	
 	@Autowired
 	private ShopDao shopDao;
@@ -63,6 +68,14 @@ public class ShopDaoTest extends BaseTest{
 		shop.setEnableStatus(1);
 		shop.setAdvice("审核中");
 		shopDao.updateShop(shop);
+	}
+	
+	@Test
+	public void testQueryByShopId() {
+		logger.info("=========start========");
+		Shop shop = shopDao.queryByShopId(17L);
+		logger.info("=========end========");
+		
 	}
 
 }
