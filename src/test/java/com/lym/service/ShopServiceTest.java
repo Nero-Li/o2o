@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName ShopServiceTest
@@ -65,5 +66,17 @@ public class ShopServiceTest extends BaseTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    @Test
+    public void testQueryShopListCount() {
+    	Shop shopCondition = new Shop();
+    	ShopCategory shopCategory = new ShopCategory();
+    	shopCategory.setShopCategoryId(1L);
+    	shopCondition.setShopCategory(shopCategory);
+    	ShopExcution se = shopService.getShopList(shopCondition, 0, 2);
+    	System.out.println("========="+se.getShopList().size());
+    	System.out.println("========="+se.getCount());
+    	System.out.println("测试断点");
     }
 }

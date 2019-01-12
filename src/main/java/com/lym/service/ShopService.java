@@ -7,6 +7,15 @@ import com.lym.exception.ShopOperationException;
 import java.io.InputStream;
 
 public interface ShopService {
+	
+	/**
+	 *  获取店铺列表
+	 * @param shopCondition
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public ShopExcution getShopList(Shop shopCondition,int pageIndex,int pageSize);
 
 	/**
 	 * 新增店铺

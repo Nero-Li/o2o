@@ -1,7 +1,23 @@
 package com.lym.controller.shopadmin;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lym.dao.ShopCategoryDao;
 import com.lym.dto.ShopExcution;
 import com.lym.entity.Area;
 import com.lym.entity.PersonInfo;
@@ -13,21 +29,6 @@ import com.lym.service.ShopCategoryService;
 import com.lym.service.ShopService;
 import com.lym.util.CodeUtil;
 import com.lym.util.HttpServletRequestUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/shopadmin")
@@ -41,6 +42,59 @@ public class ShopManagementController {
 
 	@Autowired
 	private AreaService areaService;
+	
+	@RequestMapping(value="getshopmanagementInfo",method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,Object> getShopManagementInfo(HttpServletRequest request){
+		Map<String,Object> modelMap = new HashMap<>();
+		Long shopId = HttpServletRequestUtil.getLong(request, "shopId");
+		if(shopId<0) {
+			/**
+			 * 如果前端没有传来shopId,则尝试从session里面获取当前Shop对象
+			 */
+			Object currentShopObj = request.getSession().getAttribute("currentShop");
+			if(currentShopObj==null) {
+				modelMap.put("redirect", true);
+				modelMap.put("url", "/o2o/shop/shoplist");
+			}else {
+				Shop currentShop = (Shop) currentShopObj;
+				modelMap.put("redirect", false);
+				modelMap.put("shopId", currentShop.getShopId());
+
+			}
+		}else {
+			Shop currentShop = new Shop();
+			currentShop.setShopId(shopId);
+			request.getSession().setAttribute("currentShop", currentShop);
+			modelMap.put("redirect", false);
+		}
+		return modelMap;
+	}
+	
+	
+	@RequestMapping(value = "/getshoplist",method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,Object> getShopList(HttpServletRequest request){
+		Map<String,Object> modelMap = new HashMap<>();
+		PersonInfo user = new PersonInfo();
+		user.setUserId(1L);
+		user.setName("test");
+		request.getSession().setAttribute("user", user);
+		user = (PersonInfo) request.getSession().getAttribute("user");
+		Long employeeId = user.getUserId();
+		try {
+			Shop shopCondition = new Shop();
+			shopCondition.setOwner(user);
+			ShopExcution se = shopService.getShopList(shopCondition, 0, 100);
+			modelMap.put("shopList", se.getShopList());
+			modelMap.put("user", user);
+			modelMap.put("success", true);
+		}catch (Exception e) {
+			modelMap.put("success", false);
+			modelMap.put("errMsg",e.getMessage());
+		}
+		return modelMap;
+	}
 	
 	/**
 	 * 更新店铺信息
