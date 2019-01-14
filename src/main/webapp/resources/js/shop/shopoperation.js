@@ -4,10 +4,10 @@
 $(function() {
 	var shopId = getQueryString('shopId');
 	var isEdit = shopId ? true : false;
-	var initUrl = '/o2o/shopadmin/getshopinitinfo';
-	var registerShopUrl = '/o2o/shopadmin/registershop';
-	var updateShopUrl = '/o2o/shopadmin/updateshop';
-	var shopInfoUrl = '/o2o/shopadmin/getshopbyid?shopId=' + shopId;
+    var initUrl = '/shopadmin/getshopinitinfo';
+    var registerShopUrl = '/shopadmin/registershop';
+    var updateShopUrl = '/shopadmin/updateshop';
+    var shopInfoUrl = '/shopadmin/getshopbyid?shopId=' + shopId;
 	alert(initUrl);
 	if (!isEdit) {
 		getShopInitInfo();

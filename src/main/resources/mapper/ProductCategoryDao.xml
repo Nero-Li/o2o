@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lym.dao.ProductCategoryDao">
 
-		<select id="queryProductCategoryList" parameterType="Long" resultType="com.lym.entity.ProductCategory">
+    <select id="queryProductCategoryList" parameterType="Long" resultType="com.lym.entity.ProductCategory">
 			SELECT
 			product_category_id,
 			product_category_name,
@@ -15,6 +15,7 @@
 			tb_product_category
 			WHERE
 			shop_id = #{shopId}
+			ORDER BY priority DESC
 		</select>
-	
+
 </mapper>

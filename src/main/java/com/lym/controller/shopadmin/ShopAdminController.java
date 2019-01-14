@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * 因为html放在WEB-INF里,不能直接访问,需要通过SpringMVC路由
  */
 @Controller
-@RequestMapping(value="shopadmin",method=RequestMethod.GET)
+@RequestMapping(value = "shopadmin", method = RequestMethod.GET)
 public class ShopAdminController {
 
     @RequestMapping("/shopoperation")
@@ -20,9 +20,15 @@ public class ShopAdminController {
     public String shopList() {
         return "shop/shoplist";
     }
+
     @RequestMapping("/shopmanagement")
     public String shopManagement() {
-    	return "shop/shopmanagement";
+        return "shop/shopmanagement";
+    }
+
+    @RequestMapping("/productcategorymanagement")
+    public String productCategoryManagement() {
+        return "shop/productcategorymanagement";
     }
 
 }
