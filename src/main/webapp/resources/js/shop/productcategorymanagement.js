@@ -63,6 +63,33 @@ $(function () {
         });
     });
 
+    /** 删除临时增加的商品类型 **/
+    $('.category-wrap').on('click', '.row-product-category.temp .delete', function (e) {
+        console.log($(this).parent().parent());
+        $(this).parent().parent().remove();
+    });
 
+    /** 删除已经增加的商品类型(需要后台交互) **/
+    $('.category-wrap').on('click', '.row-product-category.now .delete', function (e) {
+        var target = e.currentTarget;
+        $.confirm('确定吗?', function () {
+            $.ajax({
+                url: deleteUrl,
+                type: 'POST',
+                data: {
+                    productCategoryId: target.dataset.id
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        $.toast('删除成功!');
+                        getList();
+                    } else {
+                        $.toast('删除失败!');
+                    }
+                }
+            });
+        });
+    });
 });
 
