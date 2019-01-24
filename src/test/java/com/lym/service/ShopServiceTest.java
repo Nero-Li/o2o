@@ -1,6 +1,7 @@
 package com.lym.service;
 
 import com.lym.BaseTest;
+import com.lym.dto.ImageHolder;
 import com.lym.dto.ShopExcution;
 import com.lym.entity.Area;
 import com.lym.entity.PersonInfo;
@@ -15,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @ClassName ShopServiceTest
@@ -50,7 +50,8 @@ public class ShopServiceTest extends BaseTest {
         shop.setAdvice("审核中");
         File file = new File("C:\\Users\\lym\\Pictures\\thumb-1920-641968.jpg");
         InputStream is = new FileInputStream(file);
-        ShopExcution shopExcution = shopService.addShop(shop, is, file.getName());
+        ImageHolder imageHolder = new ImageHolder(file.getName(), is);
+        ShopExcution shopExcution = shopService.addShop(shop, imageHolder);
         System.out.println(shopExcution.getState());
     }
 
@@ -61,22 +62,23 @@ public class ShopServiceTest extends BaseTest {
             shop.setShopName("修改后的店铺");
             File file = new File("C:\\Users\\lym\\Desktop\\dabai.jpg");
             FileInputStream inputStream = new FileInputStream(file);
-            ShopExcution shopExcution = shopService.updateShop(shop, inputStream, "dabai.jpg");
+            ImageHolder imageHolder = new ImageHolder("dabai.jpg", inputStream);
+            ShopExcution shopExcution = shopService.updateShop(shop, imageHolder);
             System.out.println("新的图片地址为:" + shopExcution.getShop().getShopImg());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @Test
     public void testQueryShopListCount() {
-    	Shop shopCondition = new Shop();
-    	ShopCategory shopCategory = new ShopCategory();
-    	shopCategory.setShopCategoryId(1L);
-    	shopCondition.setShopCategory(shopCategory);
-    	ShopExcution se = shopService.getShopList(shopCondition, 0, 2);
-    	System.out.println("========="+se.getShopList().size());
-    	System.out.println("========="+se.getCount());
-    	System.out.println("测试断点");
+        Shop shopCondition = new Shop();
+        ShopCategory shopCategory = new ShopCategory();
+        shopCategory.setShopCategoryId(1L);
+        shopCondition.setShopCategory(shopCategory);
+        ShopExcution se = shopService.getShopList(shopCondition, 0, 2);
+        System.out.println("=========" + se.getShopList().size());
+        System.out.println("=========" + se.getCount());
+        System.out.println("测试断点");
     }
 }

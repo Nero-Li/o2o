@@ -18,8 +18,8 @@ public class Product {
 	
 	//缩略图
 	private String imgAddr;
-	
-	private String nomalPrice;
+
+	private String normalPrice;
 	
 	private String promotionPrice;
 	
@@ -31,7 +31,10 @@ public class Product {
 	
 	//0:不可用 1:可用
 	private Integer enableStatus;
-	
+
+	/**
+	 * 详情图 一对多
+	 */
 	private List<ProductImg> productImgList;
 	
 	private ProductCategory productCategory;
@@ -70,12 +73,12 @@ public class Product {
 		this.imgAddr = imgAddr;
 	}
 
-	public String getNomalPrice() {
-		return nomalPrice;
+	public String getNormalPrice() {
+		return normalPrice;
 	}
 
-	public void setNomalPrice(String nomalPrice) {
-		this.nomalPrice = nomalPrice;
+	public void setNormalPrice(String normalPrice) {
+		this.normalPrice = normalPrice;
 	}
 
 	public String getPromotionPrice() {

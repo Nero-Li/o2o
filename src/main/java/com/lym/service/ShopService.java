@@ -1,10 +1,9 @@
 package com.lym.service;
 
+import com.lym.dto.ImageHolder;
 import com.lym.dto.ShopExcution;
 import com.lym.entity.Shop;
 import com.lym.exception.ShopOperationException;
-
-import java.io.InputStream;
 
 public interface ShopService {
 	
@@ -21,11 +20,10 @@ public interface ShopService {
 	 * 新增店铺
 	 * 
 	 * @param shop
-	 * @param shopImgInputStream
-	 * @param fileName
+	 * @param imageHolder
 	 * @return
 	 */
-	ShopExcution addShop(Shop shop, InputStream shopImgInputStream, String fileName) throws ShopOperationException;
+	ShopExcution addShop(Shop shop, ImageHolder imageHolder) throws ShopOperationException;
 
 	/**
 	 * 根据shopId获取店铺信息
@@ -38,9 +36,8 @@ public interface ShopService {
 	 * 更新店铺
 	 * 
 	 * @param shop
-	 * @param shopImgInputStream
-	 * @param fileName
+	 * @param imageHolder
 	 * @return
 	 */
-	ShopExcution updateShop(Shop shop, InputStream shopImgInputStream, String fileName)throws ShopOperationException;
+	ShopExcution updateShop(Shop shop, ImageHolder imageHolder) throws ShopOperationException;
 }

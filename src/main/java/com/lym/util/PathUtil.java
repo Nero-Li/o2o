@@ -14,7 +14,7 @@ public class PathUtil {
         if (os.toLowerCase().startsWith("win")) {
             basePath = "D:/o2o/image/";
         } else {
-            basePath = "/home/";
+            basePath = "/Users/lym/Pictures/o2o/";
         }
         basePath = basePath.replace("/", separator);
         return basePath;

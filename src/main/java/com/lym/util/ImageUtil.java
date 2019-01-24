@@ -1,5 +1,6 @@
 package com.lym.util;
 
+import com.lym.dto.ImageHolder;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.slf4j.Logger;
@@ -9,7 +10,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -51,16 +51,16 @@ public class ImageUtil {
      *
      * @return
      */
-    public static String generateThumbnal(InputStream shopImgInputStream, String fileName, String targetAddr) {
+    public static String generateThumbnal(ImageHolder imageHolder, String targetAddr) {
         String realFileName = getRandomFileName();
-        String extention = getFileExtension(fileName);
+        String extention = getFileExtension(imageHolder.getImageName());
         makeDirPath(targetAddr);
         String relativeAddr = targetAddr + realFileName + extention;
         logger.debug("current relativeAddr is:" + relativeAddr);
         File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
         logger.debug("current complete addr is:" + PathUtil.getImgBasePath() + relativeAddr);
         try {
-            Thumbnails.of(shopImgInputStream)
+            Thumbnails.of(imageHolder.getImage())
                     .size(200, 200)
                     .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/ciger.png")), 0.25f)
                     .outputQuality(0.8f)
@@ -123,25 +123,54 @@ public class ImageUtil {
         }
         return file;
     }
-    
+
     /**
      * 判断storePath是文件路径还是目录路径
      * -->如果storePath是文件路径,则删除该文件
      * -->如果storePath是目录路径,则删除该目录下的所有文件
+     *
      * @param storePath
      */
     public static void deleteFileOrPath(String storePath) {
-    	//获取全路径
-    	File fileOrPath = new File(PathUtil.getImgBasePath()+storePath);
-    	if(fileOrPath.exists()) {
-    		if(fileOrPath.isDirectory()) {
-    			File[] files = fileOrPath.listFiles();
-    			for(int i = 0;i<files.length;i++) {
-    				files[i].delete();
-    			}
-    		}
-    		//是文件就直接删,是目录先删除目录里的文件,再删除目录本身
-    		fileOrPath.delete();
-    	}
+        //获取全路径
+        File fileOrPath = new File(PathUtil.getImgBasePath() + storePath);
+        if (fileOrPath.exists()) {
+            if (fileOrPath.isDirectory()) {
+                File[] files = fileOrPath.listFiles();
+                for (int i = 0; i < files.length; i++) {
+                    files[i].delete();
+                }
+            }
+            //是文件就直接删,是目录先删除目录里的文件,再删除目录本身
+            fileOrPath.delete();
+        }
+    }
+
+    /**
+     * 生成详情图片,与生成缩略图方法差别在于像素和压缩比重更大
+     *
+     * @param imageHolder
+     * @param targetAddr
+     * @return
+     */
+    public static String generateNomalImg(ImageHolder imageHolder, String targetAddr) {
+        String realFileName = getRandomFileName();
+        String extention = getFileExtension(imageHolder.getImageName());
+        makeDirPath(targetAddr);
+        String relativeAddr = targetAddr + realFileName + extention;
+        logger.debug("current relativeAddr is:" + relativeAddr);
+        File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
+        logger.debug("current complete addr is:" + PathUtil.getImgBasePath() + relativeAddr);
+        try {
+            Thumbnails.of(imageHolder.getImage())
+                    .size(337, 640)
+                    .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/ciger.png")), 0.25f)
+                    .outputQuality(0.9f)
+                    .toFile(dest);
+        } catch (Exception e) {
+            logger.error(e.toString());
+            e.printStackTrace();
+        }
+        return relativeAddr;
     }
 }

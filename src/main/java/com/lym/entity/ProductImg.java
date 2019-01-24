@@ -11,8 +11,8 @@ public class ProductImg {
 	private String imgDesc;
 	
 	private Integer priority;
-	
-	private Date createtime;
+
+	private Date createTime;
 	
 	private Long productId;
 
@@ -48,12 +48,12 @@ public class ProductImg {
 		this.priority = priority;
 	}
 
-	public Date getCreatetime() {
-		return createtime;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreatetime(Date createtime) {
-		this.createtime = createtime;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 	public Long getProductId() {
