@@ -6,8 +6,8 @@ import com.lym.enums.ProductStateEnum;
 import java.util.List;
 
 /**
- * @ClassName 商品处理包装类
- * @Description TODO
+ * @ClassName ProductExecution
+ * @Description 商品处理包装类
  * @Author lyming
  * @Date 2019/1/23 6:36 PM
  **/
@@ -66,6 +66,46 @@ public class ProductExecution {
     public ProductExecution(ProductStateEnum productStateEnum, List<Product> productList) {
         this.state = productStateEnum.getState();
         this.stateInfo = productStateEnum.getStateInfo();
+        this.productList = productList;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getStateInfo() {
+        return stateInfo;
+    }
+
+    public void setStateInfo(String stateInfo) {
+        this.stateInfo = stateInfo;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
         this.productList = productList;
     }
 }
