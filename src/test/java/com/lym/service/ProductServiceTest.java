@@ -2,6 +2,7 @@ package com.lym.service;
 
 import com.lym.BaseTest;
 import com.lym.dto.ImageHolder;
+import com.lym.dto.ProductExecution;
 import com.lym.entity.Product;
 import com.lym.entity.ProductCategory;
 import com.lym.entity.Shop;
@@ -16,6 +17,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @ClassName ProductServiceTest
@@ -57,5 +60,34 @@ public class ProductServiceTest extends BaseTest {
         productImgList.add(new ImageHolder(productImg2.getName(), is2));
         //添加商品
         productService.addProduct(product, imageHolder, productImgList);
+    }
+
+    @Test
+    public void testModifyProduct() throws Exception {
+        Product product = new Product();
+        Shop shop = new Shop();
+        shop.setShopId(1L);
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setProductCategoryId(5L);
+        product.setProductId(7L);
+        product.setShop(shop);
+        product.setProductCategory(productCategory);
+        product.setProductName("正式的商品");
+        product.setProductDesc("正式的商品");
+        //创建缩略图文件流
+        File thunmbnailFile = new File("/Users/lym/Desktop/images/item/shop/15/2017060523302118864.jpg");
+        FileInputStream is = new FileInputStream(thunmbnailFile);
+        ImageHolder thumbnail = new ImageHolder(thunmbnailFile.getName(), is);
+        //创建两个详情图文件流
+        File productImg1 = new File("/Users/lym/Desktop/images/item/shop/15/20170605233021865310.jpg");
+        File productImg2 = new File("/Users/lym/Desktop/images/item/shop/15/20170605233022246642.jpg");
+        FileInputStream is1 = new FileInputStream(productImg1);
+        FileInputStream is2 = new FileInputStream(productImg2);
+        List<ImageHolder> imageHolderList = new ArrayList<>();
+        imageHolderList.add(new ImageHolder(productImg1.getName(), is1));
+        imageHolderList.add(new ImageHolder(productImg2.getName(), is2));
+        //更新并验证
+        ProductExecution pe = productService.modifyProduct(product, thumbnail, imageHolderList);
+        assertEquals(ProductStateEnum.SUCCESS.getState(), pe.getState());
     }
 }

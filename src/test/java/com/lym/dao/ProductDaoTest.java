@@ -71,4 +71,25 @@ public class ProductDaoTest extends BaseTest {
         effectedNum = productDao.insertProduct(product3);
         assertEquals(1, effectedNum);
     }
+
+    @Test
+    public void testGetProductById() {
+        Product product = productDao.getProductById(7L);
+        System.out.println(product.getProductDesc());
+    }
+
+    @Test
+    public void testUpdateProduct() {
+        Product product = new Product();
+        ProductCategory pc = new ProductCategory();
+        Shop shop = new Shop();
+        shop.setShopId(1L);
+        pc.setProductCategoryId(5L);
+        product.setProductId(7L);
+        product.setShop(shop);
+        product.setProductCategory(pc);
+        product.setProductName("第一个产品");
+        int effctiveNum = productDao.updateProduct(product);
+        assertEquals(1, effctiveNum);
+    }
 }

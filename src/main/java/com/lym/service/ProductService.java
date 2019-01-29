@@ -25,4 +25,22 @@ public interface ProductService {
      */
     ProductExecution addProduct(Product product, ImageHolder imageHolder,
                                 List<ImageHolder> imageHolderList) throws ProductOperationException;
+
+
+    /**
+     * 根据productId获取商品信息
+     *
+     * @param productId
+     * @return
+     */
+    Product getProductById(Long productId);
+
+    /**
+     * 更新店铺信息
+     *
+     * @return
+     * @throws ProductOperationException
+     */
+    ProductExecution modifyProduct(Product product, ImageHolder imageHolder, List<ImageHolder> imageHolderList)
+            throws ProductOperationException;
 }
