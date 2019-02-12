@@ -55,8 +55,10 @@ public class ProductManagementController {
      * 修改商品
      *
      * @Param [request]
-     * @Return java.util.Map<java.lang.String   ,   java.lang.Object>
+     * @Return java.util.Map
      **/
+    @RequestMapping(value = "/modifyproduct", method = RequestMethod.POST)
+    @ResponseBody
     private Map<String, Object> modifyProduct(HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<>();
         /** 判断是商品编辑的时候调用还是上下架操作的时候调用
@@ -178,7 +180,7 @@ public class ProductManagementController {
             List<ProductCategory> productCategoryList = productCategoryService
                     .getProductCategoryList(product.getShop().getShopId());
             modelMap.put("product", product);
-            modelMap.put("productCategoryLsit", productCategoryList);
+            modelMap.put("productCategoryList", productCategoryList);
             modelMap.put("success", true);
         } else {
             modelMap.put("success", false);

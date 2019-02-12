@@ -131,10 +131,10 @@ $(function () {
             success: function (data) {
                 if (data.success) {
                     $.toast('提交成功!');
-                    $('#j_captcha').click();
+                    $('#captcha_img').click();
                 } else {
                     $.toast('提交失败!');
-                    $('#j_captcha').click();
+                    $('#captcha_img').click();
                 }
             }
         });
