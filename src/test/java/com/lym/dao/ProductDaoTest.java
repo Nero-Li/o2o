@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -91,5 +92,13 @@ public class ProductDaoTest extends BaseTest {
         product.setProductName("第一个产品");
         int effctiveNum = productDao.updateProduct(product);
         assertEquals(1, effctiveNum);
+    }
+
+    @Test
+    public void testQueryProductList(){
+        Product productCondition = new Product();
+        //分页查询
+        List<Product> productList = productDao.queryProductList(productCondition,0,10);
+        System.out.println(productList.size());
     }
 }
