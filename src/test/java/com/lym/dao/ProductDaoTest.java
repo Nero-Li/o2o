@@ -100,5 +100,10 @@ public class ProductDaoTest extends BaseTest {
         //分页查询
         List<Product> productList = productDao.queryProductList(productCondition,0,10);
         System.out.println(productList.size());
+        System.out.println(productDao.queryProductCount(productCondition));
+        productCondition.setProductName("正式");
+        productList = productDao.queryProductList(productCondition,0,10);
+        System.out.println(productList.size());
+        System.out.println(productDao.queryProductCount(productCondition));
     }
 }

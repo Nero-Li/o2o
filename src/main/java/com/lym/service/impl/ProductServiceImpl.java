@@ -10,6 +10,7 @@ import com.lym.enums.ProductStateEnum;
 import com.lym.exception.ProductOperationException;
 import com.lym.service.ProductService;
 import com.lym.util.ImageUtil;
+import com.lym.util.PageCalculator;
 import com.lym.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,19 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductImgDao productImgDao;
 
+
+    @Override
+    public ProductExecution getProductList(Product productCondition, int pageIndex, int pageSize) {
+        //页面转换成数据库的行码,并调用dao层取回制定页码的商品列表
+        int rowIndex = PageCalculator.calculatorRowIndex(pageIndex, pageSize);
+        List<Product> productList = productDao.queryProductList(productCondition, rowIndex, pageSize);
+        //基于同样的查询条件下返回商品总数
+        int count = productDao.queryProductCount(productCondition);
+        ProductExecution pe = new ProductExecution();
+        pe.setCount(count);
+        pe.setProductList(productList);
+        return pe;
+    }
 
     @Override
     @Transactional

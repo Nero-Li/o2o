@@ -51,6 +51,59 @@ public class ProductManagementController {
      */
     private static final int IMAGEMAXCOUNT = 6;
 
+    @ResponseBody
+    @RequestMapping(value = "getproductlistbyshop",method = RequestMethod.GET)
+    private Map<String, Object> getProductListByShop(HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<>();
+        //获取前端传来的代码
+        int pageIndex = HttpServletRequestUtil.getInt(request, "pageIndex");
+        //获取前端传来的每页的大小
+        int pageSize = HttpServletRequestUtil.getInt(request, "pageSize");
+        //从session中获取店铺信息,主要是为了获取shopId
+        Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
+        //空值判断
+        if (pageIndex > -1 && pageSize > -1 && null != currentShop && null != currentShop.getShopId()) {
+            //从前端获取索引条件
+            long productCategoryId = HttpServletRequestUtil.getLong(request, "productCategoryId");
+            String productName = HttpServletRequestUtil.getString(request, "productName");
+            Product productCondition = compactProductCondition(currentShop.getShopId(), productCategoryId, productName);
+            //传入查询条件进行查询,并返回相应商品列表以及总数
+            ProductExecution pe = productService.getProductList(productCondition, pageIndex, pageSize);
+            modelMap.put("success", true);
+            modelMap.put("productList", pe.getProductList());
+            modelMap.put("count", pe.getCount());
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "empty pageSize or pageIndex or shopId");
+        }
+        return modelMap;
+    }
+
+    /**
+     * 封装商品查询条件到Product实例当中
+     * @param shopId
+     * @param productCategoryId
+     * @param productName
+     * @return
+     */
+    private Product compactProductCondition(Long shopId, long productCategoryId, String productName) {
+        Product productCondition = new Product();
+        Shop shop = new Shop();
+        shop.setShopId(shopId);
+        productCondition.setShop(shop);
+        //若有指定类别的要求则添加进去
+        if (productCategoryId != -1L) {
+            ProductCategory productCategory = new ProductCategory();
+            productCategory.setProductCategoryId(productCategoryId);
+            productCondition.setProductCategory(productCategory);
+        }
+        //若有商品名模糊查询的要求,也添加进去
+        if (null != productName) {
+            productCondition.setProductName(productName);
+        }
+        return productCondition;
+    }
+
     /**
      * 修改商品
      *
@@ -83,11 +136,12 @@ public class ProductManagementController {
             //如果CommonsMultipartResolver里面有文件
             if (commonsMultipartResolver.isMultipart(request)) {
                 handleImage(request, thumbnail, productImageList);
-            } else {
+            }/* 上下架操作时,会走else
+            else {
                 modelMap.put("success", false);
                 modelMap.put("errMsg", "上传图片不能为null");
                 return modelMap;
-            }
+            }*/
         } catch (Exception e) {
             modelMap.put("success", false);
             modelMap.put("errMsg", e.toString());
