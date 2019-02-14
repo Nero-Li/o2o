@@ -106,4 +106,11 @@ public class ProductDaoTest extends BaseTest {
         System.out.println(productList.size());
         System.out.println(productDao.queryProductCount(productCondition));
     }
+
+    @Test
+    public void testProductCategoryToNull(){
+        //将productCategoryId为3的商品类别下面的商品的商品类别置为null
+        int effectiveNum = productDao.updateProductCategoryToNull(3L);
+        System.out.println("================="+effectiveNum+"==========");
+    }
 }

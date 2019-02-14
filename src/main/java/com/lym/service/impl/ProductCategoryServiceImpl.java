@@ -1,6 +1,7 @@
 package com.lym.service.impl;
 
 import com.lym.dao.ProductCategoryDao;
+import com.lym.dao.ProductDao;
 import com.lym.dto.ProductCategoryExecution;
 import com.lym.entity.ProductCategory;
 import com.lym.enums.ProductCategoryStateEnum;
@@ -17,6 +18,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
 
 	@Autowired
 	private ProductCategoryDao  productCategoryDao;
+
+    @Autowired
+    private ProductDao productDao;
 	
 	@Override
 	public List<ProductCategory> getProductCategoryList(Long shopId) {
@@ -46,7 +50,20 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
     @Override
     @Transactional
     public ProductCategoryExecution deleteProductCategory(long productCategoryId, long shopId) throws ProductCategoryOperationException {
-        //TODO 将此商品类别下的奖品的类别id置为null
+        /**
+         * 解除tb_product里的商品与该productCategoryId的关联
+         */
+        try {
+            int effectNum = productDao.updateProductCategoryToNull(productCategoryId);
+            if (effectNum < 0) {
+                throw new RuntimeException("商品类别更新失败!");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("delete ProductCategory error:" + e.getMessage());
+        }
+        /**
+         * 删除该productCategory
+         */
         try {
             int effectNum = productCategoryDao.deleteProductCategory(productCategoryId, shopId);
             if (effectNum < 0) {
