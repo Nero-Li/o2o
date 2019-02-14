@@ -8,7 +8,6 @@ $(function() {
     var registerShopUrl = '/shopadmin/registershop';
     var updateShopUrl = '/shopadmin/updateshop';
     var shopInfoUrl = '/shopadmin/getshopbyid?shopId=' + shopId;
-	alert(initUrl);
 	if (!isEdit) {
 		getShopInitInfo();
 	} else {
