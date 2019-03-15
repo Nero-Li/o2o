@@ -1,13 +1,13 @@
 package com.lym.service;
 
-import java.util.List;
-
 import com.lym.entity.ShopCategory;
+
+import java.util.List;
 
 public interface ShopCategoryService {
 
 	/**
-	 * 获取店铺类型列表
+	 * 根据查询条件获取店铺类型列表
 	 * 
 	 * @param shopCategoryCondition
 	 * @return
