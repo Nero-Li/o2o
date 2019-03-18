@@ -87,6 +87,11 @@
             <if test="shopCondition.shopCategory!=null and shopCondition.shopCategory.shopCategoryId!=null">
                 and shop_category_id=#{shopCondition.shopCategory.shopCategoryId}
             </if>
+			<if test="shopCondition.shopCategory!=null and shopCondition.shopCategory.parent!=null
+			 and shopCondition.shopCategory.parent.shopCategoryId!=null">
+				and s.shop_category_id in
+				(SELECT shop_category_id FROM tb_shop_category WHERE parent_id = #{shopCondition.shopCategory.parent.shopCategoryId})
+			</if>
             <if test="shopCondition.area!=null and shopCondition.area.areaId!=null">
                 and area_id = #{shopCondition.area.areaId}
             </if>
@@ -109,7 +114,7 @@
         SELECT
         count(1)
         FROM
-        tb_shop
+        tb_shop s
         <where>
             1=1
             <if test="shopCondition.shopCategory!=null and shopCondition.shopCategory.shopCategoryId!=null">
@@ -118,6 +123,11 @@
             <if test="shopCondition.area!=null and shopCondition.area.areaId!=null">
                 and area_id = #{shopCondition.area.areaId}
             </if>
+			<if test="shopCondition.shopCategory!=null and shopCondition.shopCategory.parent!=null
+			 and shopCondition.shopCategory.parent.shopCategoryId!=null">
+				and s.shop_category_id in
+				(SELECT shop_category_id FROM tb_shop_category WHERE parent_id = #{shopCondition.shopCategory.parent.shopCategoryId})
+			</if>
             <if test="shopCondition.shopName!=null">
                 and shop_name like CONCAT('%',#{shopCondition.shopName},'%')
             </if>
