@@ -8,6 +8,7 @@ import com.lym.service.AreaService;
 import com.lym.service.ShopCategoryService;
 import com.lym.service.ShopService;
 import com.lym.util.HttpServletRequestUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import java.util.Map;
  **/
 @Controller
 @RequestMapping("/frontend")
+@Slf4j
 public class ShopListController {
 
     @Autowired
@@ -100,7 +102,7 @@ public class ShopListController {
             //试着获取特定二级类表id
             long shopCategoryId = HttpServletRequestUtil.getLong(request, "shopCategoryId");
             //试着获取区域id
-            int areaId = HttpServletRequestUtil.getInt(request, "araeId");
+            int areaId = HttpServletRequestUtil.getInt(request, "areaId");
             //试着获取模糊查询的名字
             String shopName = HttpServletRequestUtil.getString(request, "shopName");
             //组合查询条件
