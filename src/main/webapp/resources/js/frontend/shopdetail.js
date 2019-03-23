@@ -86,10 +86,10 @@ $(function () {
                 var total = $('.list-div .card').length;
                 //若总数达到跟之前按照此查询条件列出来的总数一致,则停止后台的加载
                 if (total >= maxItems) {
-                    // 加载完毕，则注销无限加载事件，以防不必要的加载
-                    $.detachInfiniteScroll($('.infinite-scroll'));
-                    // 删除加载提示符
-                    $('.infinite-scroll-preloader').remove();
+                    // 隐藏加载提示符
+                    $('.infinite-scroll-preloader').hide();
+                } else {
+                    $('.infinite-scroll-preloader').show();
                 }
                 //pageNum加一,继续load出新的店铺
                 pageNum += 1;
@@ -135,7 +135,7 @@ $(function () {
     });
 
     //需要查询的商品名字发生改变后,重置页码,清空原先的商品列表,按照新的名字进行查询
-    $('#search').on('input', function (e) {
+    $('#search').on('change', function (e) {
         productName = e.target.value;
         $('.list-div').empty();
         pageNum = 1;
