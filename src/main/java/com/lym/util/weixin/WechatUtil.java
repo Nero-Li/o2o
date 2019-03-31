@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lym.dto.UserAccessToken;
 import com.lym.dto.WechatUser;
+import com.lym.entity.PersonInfo;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -104,6 +105,21 @@ public class WechatUtil {
             return null;
         }
         return user;
+    }
+
+    /**
+     * 将wechatUser里的信息转换成PersonInfo的信息并返回PersonInfo实体类
+     *
+     * @param user
+     * @return
+     */
+    public static PersonInfo getPersonInfoFromRequest(WechatUser user) {
+        PersonInfo personInfo = new PersonInfo();
+        personInfo.setName(user.getNickName());
+        personInfo.setGender(user.getSex() + "");
+        personInfo.setProfileImg(user.getHeadimgurl());
+        personInfo.setEnableStatus(1);
+        return personInfo;
     }
 
     /**

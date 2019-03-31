@@ -20,7 +20,7 @@ public class PersonInfo {
 	private String gender;
 	
 	//0:禁止使用本商城,1:允许使用本商城
-	private Integer enabelStatus;
+	private Integer enableStatus;
 	
 	//1:顾客,2:店家,3:超级管理员'
 	private Integer userType;
@@ -69,14 +69,6 @@ public class PersonInfo {
 		this.gender = gender;
 	}
 
-	public Integer getEnabelStatus() {
-		return enabelStatus;
-	}
-
-	public void setEnabelStatus(Integer enabelStatus) {
-		this.enabelStatus = enabelStatus;
-	}
-
 	public Integer getUserType() {
 		return userType;
 	}
@@ -100,6 +92,12 @@ public class PersonInfo {
 	public void setLastEditTime(Date lastEditTime) {
 		this.lastEditTime = lastEditTime;
 	}
-    
-    
+
+	public Integer getEnableStatus() {
+		return enableStatus;
+	}
+
+	public void setEnableStatus(Integer enableStatus) {
+		this.enableStatus = enableStatus;
+	}
 }
