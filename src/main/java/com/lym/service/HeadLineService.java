@@ -11,6 +11,10 @@ import java.util.List;
 public interface HeadLineService {
 
     /**
+     * redis的key前缀
+     */
+    public static String HLLISTKEY = "headlinelist";
+    /**
      * 根据传入的条件返回指定的头条列表
      *
      * @param headLineCondition

@@ -1,8 +1,8 @@
 package com.lym.service;
 
-import java.util.List;
-
 import com.lym.entity.Area;
+
+import java.util.List;
 
 /**
   * 区域相关Service层
@@ -10,7 +10,12 @@ import com.lym.entity.Area;
  *
  */
 public interface AreaService {
-	
+
+    /**
+     * redis的key前缀
+     */
+    public static String AREALISYKEY = "arealist";
+
 	/**
 	  * 查询区域列表
 	 * @return areaList

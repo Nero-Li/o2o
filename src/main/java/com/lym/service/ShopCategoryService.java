@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface ShopCategoryService {
 
+    /**
+     * redis的key前缀
+     */
+    public static String SCLISTKEY = "shopcategorylist";
 	/**
 	 * 根据查询条件获取店铺类型列表
 	 * 
