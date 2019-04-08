@@ -29,7 +29,7 @@ $(function() {
                         + item.productName
                         + '</div>'
                         + '<div class="col-20">'
-                        + item.priority
+                        + item.point
                         + '</div>'
                         + '<div class="col-40">'
                         + '<a href="#" class="edit" data-id="'
@@ -82,11 +82,7 @@ $(function() {
         });
     }
     //将class为product-wrap里面的a标签绑定上点击事件
-    $('.product-wrap')
-        .on(
-            'click',
-            'a',
-            function(e) {
+    $('.product-wrap').on('click', 'a', function (e) {
                 var target = $(e.currentTarget);
                 if (target.hasClass('edit')) {
                     //如果有class edit则点击就进入店铺信息编辑页面,并带有productId

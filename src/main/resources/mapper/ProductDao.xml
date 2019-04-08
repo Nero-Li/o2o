@@ -15,6 +15,7 @@
         <result column="last_edit_time" property="lastEditTime"/>
         <result column="enable_status" property="enableStatus"/>
         <result column="img_addr" property="imgAddr"/>
+        <result column="point" property="point"/>
         <association property="shop" column="shop_id" select="queryShopId" javaType="com.lym.entity.Shop"/>
         <association property="productCategory" column="product_category_id" select="queryProductCategoryId"/>
         <collection property="productImgList" column="product_id" ofType="com.lym.entity.ProductImg"
@@ -23,7 +24,7 @@
     </resultMap>
 
     <sql id="baseSql">product_id,product_name,product_desc,normal_price,promotion_price,priority,create_time,last_edit_time,
-                      enable_status,img_addr</sql>
+                      enable_status,img_addr,point</sql>
 
     <!-- association query start -->
     <select id="queryShopId" resultType="com.lym.entity.Shop">
@@ -77,6 +78,7 @@
             <if test="priority!=null">priority=#{priority},</if>
             <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
             <if test="enableStatus!=null">enable_status=#{enableStatus},</if>
+            <if test="point!=null">point=#{point},</if>
             <if test="productCategory!=null and productCategory.productCategoryId!=null">
                 product_category_id = #{productCategory.productCategoryId}
             </if>
@@ -98,12 +100,12 @@
     tb_product(product_name,product_desc,img_addr,
     normal_price,promotion_price,priority,create_time,
     last_edit_time,enable_status,product_category_id,
-    shop_id)
+    shop_id,point)
     VALUES
     (#{productName},#{productDesc},#{imgAddr},
     #{normalPrice},#{promotionPrice},#{priority},#{createTime},
     #{lastEditTime},#{enableStatus},#{productCategory.productCategoryId},
-    #{shop.shopId})
+    #{shop.shopId},#{point})
     </insert>
     <delete id="deleteProductById">
         DELETE FROM tb_product WHERE product_id = #{productId}
@@ -111,7 +113,7 @@
 
     <select id="getProductById" resultMap="productMap">
         SELECT product_id,product_name,product_desc,img_addr,normal_price,promotion_price,priority,create_time,
-        last_edit_time,enable_status,product_category_id,shop_id
+        last_edit_time,enable_status,product_category_id,shop_id,point
         FROM tb_product
         WHERE product_id = #{productId}
     </select>
