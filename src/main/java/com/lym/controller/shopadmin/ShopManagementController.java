@@ -86,6 +86,8 @@ public class ShopManagementController {
             shopCondition.setOwner(user);
             ShopExcution se = shopService.getShopList(shopCondition, 0, 100);
             modelMap.put("shopList", se.getShopList());
+            //列出店铺成功之后,将店铺放进session中,作为权限验证一句,即该账号只能操作它自己的店铺
+            request.getSession().setAttribute("shopList", se.getShopList());
             modelMap.put("user", user);
             modelMap.put("success", true);
         } catch (Exception e) {
