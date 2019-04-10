@@ -262,12 +262,12 @@ public class ProductManagementController {
     @ResponseBody
     private Map<String, Object> addProduct(HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<>();
-        //验证码校验
-//        if (!CodeUtil.checkVerifyCode(request)) {
-//            modelMap.put("success", false);
-//            modelMap.put("errMsg", "验证码错误");
-//            return modelMap;
-//        }
+//        验证码校验
+        if (!CodeUtil.checkVerifyCode(request)) {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "验证码错误");
+            return modelMap;
+        }
 
         //接受前端参数的数量的初始化,包括商品,缩略图,详情图列表实体类
         ObjectMapper mapper = new ObjectMapper();
